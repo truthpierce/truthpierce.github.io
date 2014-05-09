@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://truthpierce.github.io/sitemap.xml 
+Sitemap: http://caoyx.me/sitemap.xml 
