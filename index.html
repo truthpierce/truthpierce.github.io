@@ -9,8 +9,7 @@
   <meta name="author" content="Pierce">
 
   
-  <meta name="description" content="hello world! 这是第一篇博客。 这几天把wordpress博客关闭，全部迁移至此。
-">
+  <meta name="description" content="交大的毕业照都是委托一家叫潮源数码的小公司拍摄的，下载自己的照片也在这个网站。简单看了一下这个简陋的网站的下载照片处，虽然有填写身份证号的地方，但观察下传参就能发现仅对姓名和学号是否一致进行了判断。这样只需要有姓名和学号的名单，就可以写脚本抓取所有毕业生的照片。 首先想到的是交大研究生院网站， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +72,240 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/07/jiao-da-bi-ye-sheng-zheng-jian-zhao-pi-liang-zhua-qu/">交大毕业生证件照批量抓取</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-07T18:24:23+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>交大的毕业照都是委托一家叫<a href="http://spring-pic.com/">潮源数码</a>的小公司拍摄的，下载自己的照片也在这个网站。简单看了一下这个简陋的网站的下载照片处，虽然有填写身份证号的地方，但观察下传参就能发现仅对姓名和学号是否一致进行了判断。这样只需要有姓名和学号的名单，就可以写脚本抓取所有毕业生的照片。</p>
+
+<p>首先想到的是交大研究生院网站，果然一找就能找到，比如 <a href="http://www.gs.sjtu.edu.cn/inform/attachment/2011/20110902_002310_077.xls">11级</a> <a href="http://www.gs.sjtu.edu.cn/inform/attachment/2012/20120702_145958_344.xls">12级</a> 下载后整理成学号+姓名的纯文本即可。</p>
+
+<p>python脚本如下，注意编码问题，GBK与UTF-8的互相转换。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#coding=gbk
+</span><span class='line'>import os
+</span><span class='line'>import urllib
+</span><span class='line'>import urllib2
+</span><span class='line'>import re
+</span><span class='line'>from threading import Thread  
+</span><span class='line'>from Queue import Queue  
+</span><span class='line'>
+</span><span class='line'>#q is the task queue 
+</span><span class='line'>#NUM is the sum of threads  
+</span><span class='line'>q = Queue()  
+</span><span class='line'>NUM = 10
+</span><span class='line'>data_file_name = 'list.txt'
+</span><span class='line'>login_url = 'http://spring-pic.com/info/Management.asp'
+</span><span class='line'>pic_pattern = 'a href="../Images/UpPhoto/(.*?)"'
+</span><span class='line'>pic_base_url = 'http://spring-pic.com/Images/UpPhoto/'
+</span><span class='line'>str_pattern = '学校名称：&lt;/td&gt;.*?font_1"&gt;(.*?)&lt;.*?：.*?font_1"&gt;(.*?)&lt;.*?：.*?font_1"&gt;(.*?)&lt;.*?：.*?font_1"&gt;(.*?)&lt;'
+</span><span class='line'>save_dir = r'/Users/pierce/Downloads/temp/'
+</span><span class='line'>
+</span><span class='line'>def save_image(dir,image_name,image):
+</span><span class='line'>    if not os.path.isdir(dir):
+</span><span class='line'>        os.makedirs(dir)
+</span><span class='line'>    try:
+</span><span class='line'>        image_file = open(dir + image_name,'wb')
+</span><span class='line'>    except IOError as (error, strerror):
+</span><span class='line'>        print "I/O error({0}):{1}".format(error,strerror)
+</span><span class='line'>    else:
+</span><span class='line'>        image_file.write(image)
+</span><span class='line'>        image_file.close()
+</span><span class='line'>
+</span><span class='line'>def get_image(name,student_no,pattern):
+</span><span class='line'>    #Configure opener to handle cookies
+</span><span class='line'>    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+</span><span class='line'>    urllib2.install_opener(opener)
+</span><span class='line'>    #Build Parameters
+</span><span class='line'>    params = urllib.urlencode({'daimaxuehao':student_no,'realname':name,'sfzh':'','SchoolID':10248,'action':'sub','imageField.x':16,'imageField.y':16})
+</span><span class='line'>    #Open login html
+</span><span class='line'>    f = opener.open(login_url,params)
+</span><span class='line'>    login_html = f.read()
+</span><span class='line'>    f.close()
+</span><span class='line'>    #Search the image link
+</span><span class='line'>    m = re.search(pattern,login_html)
+</span><span class='line'>    #The student hasn't taken picture
+</span><span class='line'>    if m is None:
+</span><span class='line'>        return None
+</span><span class='line'>    else:
+</span><span class='line'>        n = re.search(str_pattern, login_html, re.DOTALL)
+</span><span class='line'>        if n is not None:
+</span><span class='line'>            school_name = n.group(1)
+</span><span class='line'>            department = n.group(2)
+</span><span class='line'>            major = n.group(3)
+</span><span class='line'>            class_no = n.group(4)
+</span><span class='line'>            #Get the image    
+</span><span class='line'>            match_part = m.group(1)
+</span><span class='line'>            f = opener.open(pic_base_url + match_part)
+</span><span class='line'>            image = f.read()
+</span><span class='line'>            return (school_name, department, major, class_no, image)
+</span><span class='line'>
+</span><span class='line'>def add_tasks(queue, data_file_name):
+</span><span class='line'>    data_file = open(data_file_name, 'r')
+</span><span class='line'>    lines = data_file.readlines()
+</span><span class='line'>    for line in lines:
+</span><span class='line'>        items = line.split()
+</span><span class='line'>        q.put(items)
+</span><span class='line'>
+</span><span class='line'>def grab(arguments):
+</span><span class='line'>    student_no = arguments[0]
+</span><span class='line'>    name = arguments[1]
+</span><span class='line'>    items = get_image(name,student_no,pic_pattern)
+</span><span class='line'>    if items is not None:
+</span><span class='line'>        (school_name, department, major, class_no, image) = items
+</span><span class='line'>        school_name = school_name.decode("gbk").encode("utf-8")
+</span><span class='line'>        department = department.decode("gbk").encode("utf-8")
+</span><span class='line'>        name = name.decode("gbk").encode("utf-8")
+</span><span class='line'>        major = major.decode("gbk").encode("utf-8")
+</span><span class='line'>        save_image(save_dir,school_name+'_'+department+'_'+class_no+'_'+student_no + '_' + name +'_'+major+ '.jpg',image)
+</span><span class='line'>        print student_no + '_' + name + '.jpg' + ' is saved'
+</span><span class='line'>    else:
+</span><span class='line'>        name = name.decode("gbk").encode("utf-8")
+</span><span class='line'>        print student_no + '\t' + name + ' no photo'
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>add_tasks(q, data_file_name)
+</span><span class='line'>
+</span><span class='line'>#working thread,deal with the data from queue 
+</span><span class='line'>def working():
+</span><span class='line'>    while True:
+</span><span class='line'>        arguments = q.get()
+</span><span class='line'>        grab(arguments)
+</span><span class='line'>        q.task_done()  
+</span><span class='line'>#fork NUM threads  
+</span><span class='line'>for i in range(NUM):
+</span><span class='line'>    t = Thread(target=working)
+</span><span class='line'>    t.setDaemon(True)
+</span><span class='line'>    t.start()</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="../../../../../images/custom/screenshoot20141207.png" alt="Alt text" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/05/09/hello-world/">Hello World</a></h1>
     
     
@@ -119,6 +352,10 @@
     <section>
   <h1>最新日志</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/12/07/jiao-da-bi-ye-sheng-zheng-jian-zhao-pi-liang-zhua-qu/">交大毕业生证件照批量抓取</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/05/09/hello-world/">Hello World</a>
