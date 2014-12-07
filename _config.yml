@@ -3,8 +3,8 @@
 # ----------------------- #
 
 url: http://caoyx.me
-title: Unlimited IBN5100 Works
-subtitle: Pierce's Demesne
+title: Pierce's Demesne
+subtitle: Unlimited IBN5100 Works
 author: Pierce
 simple_search: http://www.google.com/search
 description: Pierce's Demesne
@@ -70,7 +70,7 @@ github_skip_forks: true
 
 # Twitter
 twitter_user:
-twitter_tweet_button: true
+twitter_tweet_button: false
 
 # Google +1
 google_plus_one: false

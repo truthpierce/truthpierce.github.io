@@ -11,7 +11,7 @@ categories: python
 
 python脚本如下，注意编码问题，GBK与UTF-8的互相转换。
 
-```
+``` python
 #coding=gbk
 import os
 import urllib
@@ -81,16 +81,15 @@ def grab(arguments):
     student_no = arguments[0]
     name = arguments[1]
     items = get_image(name,student_no,pic_pattern)
+    name = name.decode("gbk").encode("utf-8")
     if items is not None:
         (school_name, department, major, class_no, image) = items
         school_name = school_name.decode("gbk").encode("utf-8")
         department = department.decode("gbk").encode("utf-8")
-        name = name.decode("gbk").encode("utf-8")
         major = major.decode("gbk").encode("utf-8")
         save_image(save_dir,school_name+'_'+department+'_'+class_no+'_'+student_no + '_' + name +'_'+major+ '.jpg',image)
         print student_no + '_' + name + '.jpg' + ' is saved'
     else:
-        name = name.decode("gbk").encode("utf-8")
         print student_no + '\t' + name + ' no photo'
 
 
@@ -109,4 +108,4 @@ for i in range(NUM):
     t.start()
 ```
 
-![Alt text](images/custom/20141207.jpg)
+![Alt text](/images/custom/20141207.jpg)
