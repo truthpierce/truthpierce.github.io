@@ -4,7 +4,7 @@
   <title><![CDATA[Pierce's Demesne]]></title>
   <link href="http://caoyx.me/atom.xml" rel="self"/>
   <link href="http://caoyx.me/"/>
-  <updated>2014-12-07T19:39:21+08:00</updated>
+  <updated>2014-12-07T19:43:21+08:00</updated>
   <id>http://caoyx.me/</id>
   <author>
     <name><![CDATA[Pierce]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[交大毕业生证件照批量抓取]]></title>
-    <link href="http://caoyx.me/blog/2014/12/07/jiao-da-bi-ye-sheng-zheng-jian-zhao-pi-liang-zhua-qu/"/>
+    <link href="http://caoyx.me/blog/2014/12/07/grab-graduation-photos-of-sjtu/"/>
     <updated>2014-12-07T18:24:23+08:00</updated>
-    <id>http://caoyx.me/blog/2014/12/07/jiao-da-bi-ye-sheng-zheng-jian-zhao-pi-liang-zhua-qu</id>
+    <id>http://caoyx.me/blog/2014/12/07/grab-graduation-photos-of-sjtu</id>
     <content type="html"><![CDATA[<p>交大的毕业照都是委托一家叫<a href="http://spring-pic.com/">潮源数码</a>的小公司拍摄的，下载自己的照片也在这个网站。简单看了一下这个简陋的网站的下载照片处，虽然有填写身份证号的地方，但观察下传参就能发现仅对姓名和学号是否一致进行了判断。这样只需要有姓名和学号的名单，就可以写脚本抓取所有毕业生的照片。</p>
 
 <p>首先想到的是交大研究生院网站，果然一找就能找到，比如 <a href="http://www.gs.sjtu.edu.cn/inform/attachment/2011/20110902_002310_077.xls">11级</a> <a href="http://www.gs.sjtu.edu.cn/inform/attachment/2012/20120702_145958_344.xls">12级</a> 下载后整理成学号+姓名的纯文本即可。</p>
@@ -217,7 +217,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><img src="images/custom/20141207.jpg" alt="Alt text" /></p>
+<p><img src="http://caoyx.me/images/custom/20141207.jpg" alt="Alt text" /></p>
 ]]></content>
   </entry>
   
