@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Pierce's Demesne]]></title>
   <link href="http://caoyx.me/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://caoyx.me/"/>
-  <updated>2014-12-07T19:33:30+08:00</updated>
+  <updated>2014-12-07T19:39:21+08:00</updated>
   <id>http://caoyx.me/</id>
   <author>
     <name><![CDATA[Pierce]]></name>
@@ -24,7 +24,7 @@
 
 <p>python脚本如下，注意编码问题，GBK与UTF-8的互相转换。</p>
 
-<p>```</p>
+<p>``` python</p>
 
 <h1>coding=gbk</h1>
 

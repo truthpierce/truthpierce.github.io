@@ -4,7 +4,7 @@
   <title><![CDATA[Pierce's Demesne]]></title>
   <link href="http://caoyx.me/atom.xml" rel="self"/>
   <link href="http://caoyx.me/"/>
-  <updated>2014-12-07T19:33:30+08:00</updated>
+  <updated>2014-12-07T19:39:21+08:00</updated>
   <id>http://caoyx.me/</id>
   <author>
     <name><![CDATA[Pierce]]></name>
@@ -24,7 +24,7 @@
 
 <p>python脚本如下，注意编码问题，GBK与UTF-8的互相转换。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -119,101 +119,102 @@
 <span class='line-number'>93</span>
 <span class='line-number'>94</span>
 <span class='line-number'>95</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#coding=gbk
-</span><span class='line'>import os
-</span><span class='line'>import urllib
-</span><span class='line'>import urllib2
-</span><span class='line'>import re
-</span><span class='line'>from threading import Thread  
-</span><span class='line'>from Queue import Queue  
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">#coding=gbk</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">urllib2</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">re</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">Queue</span> <span class="kn">import</span> <span class="n">Queue</span>
 </span><span class='line'>
-</span><span class='line'>#q is the task queue 
-</span><span class='line'>#NUM is the sum of threads  
-</span><span class='line'>q = Queue()  
-</span><span class='line'>NUM = 10
-</span><span class='line'>data_file_name = 'list.txt'
-</span><span class='line'>login_url = 'http://spring-pic.com/info/Management.asp'
-</span><span class='line'>pic_pattern = 'a href="../Images/UpPhoto/(.*?)"'
-</span><span class='line'>pic_base_url = 'http://spring-pic.com/Images/UpPhoto/'
-</span><span class='line'>str_pattern = '学校名称：&lt;/td&gt;.*?font_1"&gt;(.*?)&lt;.*?：.*?font_1"&gt;(.*?)&lt;.*?：.*?font_1"&gt;(.*?)&lt;.*?：.*?font_1"&gt;(.*?)&lt;'
-</span><span class='line'>save_dir = r'/Users/pierce/Downloads/temp/'
+</span><span class='line'><span class="c">#q is the task queue </span>
+</span><span class='line'><span class="c">#NUM is the sum of threads  </span>
+</span><span class='line'><span class="n">q</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+</span><span class='line'><span class="n">NUM</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'><span class="n">data_file_name</span> <span class="o">=</span> <span class="s">&#39;list.txt&#39;</span>
+</span><span class='line'><span class="n">login_url</span> <span class="o">=</span> <span class="s">&#39;http://spring-pic.com/info/Management.asp&#39;</span>
+</span><span class='line'><span class="n">pic_pattern</span> <span class="o">=</span> <span class="s">&#39;a href=&quot;../Images/UpPhoto/(.*?)&quot;&#39;</span>
+</span><span class='line'><span class="n">pic_base_url</span> <span class="o">=</span> <span class="s">&#39;http://spring-pic.com/Images/UpPhoto/&#39;</span>
+</span><span class='line'><span class="n">str_pattern</span> <span class="o">=</span> <span class="s">&#39;学校名称：&lt;/td&gt;.*?font_1&quot;&gt;(.*?)&lt;.*?：.*?font_1&quot;&gt;(.*?)&lt;.*?：.*?font_1&quot;&gt;(.*?)&lt;.*?：.*?font_1&quot;&gt;(.*?)&lt;&#39;</span>
+</span><span class='line'><span class="n">save_dir</span> <span class="o">=</span> <span class="s">r&#39;/Users/pierce/Downloads/temp/&#39;</span>
 </span><span class='line'>
-</span><span class='line'>def save_image(dir,image_name,image):
-</span><span class='line'>    if not os.path.isdir(dir):
-</span><span class='line'>        os.makedirs(dir)
-</span><span class='line'>    try:
-</span><span class='line'>        image_file = open(dir + image_name,'wb')
-</span><span class='line'>    except IOError as (error, strerror):
-</span><span class='line'>        print "I/O error({0}):{1}".format(error,strerror)
-</span><span class='line'>    else:
-</span><span class='line'>        image_file.write(image)
-</span><span class='line'>        image_file.close()
+</span><span class='line'><span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="n">image_name</span><span class="p">,</span><span class="n">image</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">image_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="nb">dir</span> <span class="o">+</span> <span class="n">image_name</span><span class="p">,</span><span class="s">&#39;wb&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">strerror</span><span class="p">):</span>
+</span><span class='line'>        <span class="k">print</span> <span class="s">&quot;I/O error({0}):{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">,</span><span class="n">strerror</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">image_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">image_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </span><span class='line'>
-</span><span class='line'>def get_image(name,student_no,pattern):
-</span><span class='line'>    #Configure opener to handle cookies
-</span><span class='line'>    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
-</span><span class='line'>    urllib2.install_opener(opener)
-</span><span class='line'>    #Build Parameters
-</span><span class='line'>    params = urllib.urlencode({'daimaxuehao':student_no,'realname':name,'sfzh':'','SchoolID':10248,'action':'sub','imageField.x':16,'imageField.y':16})
-</span><span class='line'>    #Open login html
-</span><span class='line'>    f = opener.open(login_url,params)
-</span><span class='line'>    login_html = f.read()
-</span><span class='line'>    f.close()
-</span><span class='line'>    #Search the image link
-</span><span class='line'>    m = re.search(pattern,login_html)
-</span><span class='line'>    #The student hasn't taken picture
-</span><span class='line'>    if m is None:
-</span><span class='line'>        return None
-</span><span class='line'>    else:
-</span><span class='line'>        n = re.search(str_pattern, login_html, re.DOTALL)
-</span><span class='line'>        if n is not None:
-</span><span class='line'>            school_name = n.group(1)
-</span><span class='line'>            department = n.group(2)
-</span><span class='line'>            major = n.group(3)
-</span><span class='line'>            class_no = n.group(4)
-</span><span class='line'>            #Get the image    
-</span><span class='line'>            match_part = m.group(1)
-</span><span class='line'>            f = opener.open(pic_base_url + match_part)
-</span><span class='line'>            image = f.read()
-</span><span class='line'>            return (school_name, department, major, class_no, image)
+</span><span class='line'><span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">student_no</span><span class="p">,</span><span class="n">pattern</span><span class="p">):</span>
+</span><span class='line'>    <span class="c">#Configure opener to handle cookies</span>
+</span><span class='line'>    <span class="n">opener</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">build_opener</span><span class="p">(</span><span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPCookieProcessor</span><span class="p">())</span>
+</span><span class='line'>    <span class="n">urllib2</span><span class="o">.</span><span class="n">install_opener</span><span class="p">(</span><span class="n">opener</span><span class="p">)</span>
+</span><span class='line'>    <span class="c">#Build Parameters</span>
+</span><span class='line'>    <span class="n">params</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">({</span><span class="s">&#39;daimaxuehao&#39;</span><span class="p">:</span><span class="n">student_no</span><span class="p">,</span><span class="s">&#39;realname&#39;</span><span class="p">:</span><span class="n">name</span><span class="p">,</span><span class="s">&#39;sfzh&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;SchoolID&#39;</span><span class="p">:</span><span class="mi">10248</span><span class="p">,</span><span class="s">&#39;action&#39;</span><span class="p">:</span><span class="s">&#39;sub&#39;</span><span class="p">,</span><span class="s">&#39;imageField.x&#39;</span><span class="p">:</span><span class="mi">16</span><span class="p">,</span><span class="s">&#39;imageField.y&#39;</span><span class="p">:</span><span class="mi">16</span><span class="p">})</span>
+</span><span class='line'>    <span class="c">#Open login html</span>
+</span><span class='line'>    <span class="n">f</span> <span class="o">=</span> <span class="n">opener</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">login_url</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">login_html</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span class='line'>    <span class="c">#Search the image link</span>
+</span><span class='line'>    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span><span class="n">login_html</span><span class="p">)</span>
+</span><span class='line'>    <span class="c">#The student hasn&#39;t taken picture</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="bp">None</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">n</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">str_pattern</span><span class="p">,</span> <span class="n">login_html</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>            <span class="n">school_name</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">department</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">major</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">class_no</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'>            <span class="c">#Get the image    </span>
+</span><span class='line'>            <span class="n">match_part</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">f</span> <span class="o">=</span> <span class="n">opener</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pic_base_url</span> <span class="o">+</span> <span class="n">match_part</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">image</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</span><span class='line'>            <span class="k">return</span> <span class="p">(</span><span class="n">school_name</span><span class="p">,</span> <span class="n">department</span><span class="p">,</span> <span class="n">major</span><span class="p">,</span> <span class="n">class_no</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>def add_tasks(queue, data_file_name):
-</span><span class='line'>    data_file = open(data_file_name, 'r')
-</span><span class='line'>    lines = data_file.readlines()
-</span><span class='line'>    for line in lines:
-</span><span class='line'>        items = line.split()
-</span><span class='line'>        q.put(items)
+</span><span class='line'><span class="k">def</span> <span class="nf">add_tasks</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">data_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_file_name</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">lines</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">items</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">q</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>def grab(arguments):
-</span><span class='line'>    student_no = arguments[0]
-</span><span class='line'>    name = arguments[1]
-</span><span class='line'>    items = get_image(name,student_no,pic_pattern)
-</span><span class='line'>    if items is not None:
-</span><span class='line'>        (school_name, department, major, class_no, image) = items
-</span><span class='line'>        school_name = school_name.decode("gbk").encode("utf-8")
-</span><span class='line'>        department = department.decode("gbk").encode("utf-8")
-</span><span class='line'>        name = name.decode("gbk").encode("utf-8")
-</span><span class='line'>        major = major.decode("gbk").encode("utf-8")
-</span><span class='line'>        save_image(save_dir,school_name+'_'+department+'_'+class_no+'_'+student_no + '_' + name +'_'+major+ '.jpg',image)
-</span><span class='line'>        print student_no + '_' + name + '.jpg' + ' is saved'
-</span><span class='line'>    else:
-</span><span class='line'>        name = name.decode("gbk").encode("utf-8")
-</span><span class='line'>        print student_no + '\t' + name + ' no photo'
+</span><span class='line'><span class="k">def</span> <span class="nf">grab</span><span class="p">(</span><span class="n">arguments</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">student_no</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">name</span> <span class="o">=</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">items</span> <span class="o">=</span> <span class="n">get_image</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">student_no</span><span class="p">,</span><span class="n">pic_pattern</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">items</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+</span><span class='line'>        <span class="p">(</span><span class="n">school_name</span><span class="p">,</span> <span class="n">department</span><span class="p">,</span> <span class="n">major</span><span class="p">,</span> <span class="n">class_no</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span> <span class="o">=</span> <span class="n">items</span>
+</span><span class='line'>        <span class="n">school_name</span> <span class="o">=</span> <span class="n">school_name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;gbk&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">department</span> <span class="o">=</span> <span class="n">department</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;gbk&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;gbk&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">major</span> <span class="o">=</span> <span class="n">major</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;gbk&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">save_image</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span><span class="n">school_name</span><span class="o">+</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="n">department</span><span class="o">+</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="n">class_no</span><span class="o">+</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="n">student_no</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span><span class="s">&#39;_&#39;</span><span class="o">+</span><span class="n">major</span><span class="o">+</span> <span class="s">&#39;.jpg&#39;</span><span class="p">,</span><span class="n">image</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">student_no</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.jpg&#39;</span> <span class="o">+</span> <span class="s">&#39; is saved&#39;</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;gbk&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">print</span> <span class="n">student_no</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39; no photo&#39;</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'>add_tasks(q, data_file_name)
+</span><span class='line'><span class="n">add_tasks</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">data_file_name</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>#working thread,deal with the data from queue 
-</span><span class='line'>def working():
-</span><span class='line'>    while True:
-</span><span class='line'>        arguments = q.get()
-</span><span class='line'>        grab(arguments)
-</span><span class='line'>        q.task_done()  
-</span><span class='line'>#fork NUM threads  
-</span><span class='line'>for i in range(NUM):
-</span><span class='line'>    t = Thread(target=working)
-</span><span class='line'>    t.setDaemon(True)
-</span><span class='line'>    t.start()</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c">#working thread,deal with the data from queue </span>
+</span><span class='line'><span class="k">def</span> <span class="nf">working</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">arguments</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">grab</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">q</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+</span><span class='line'><span class="c">#fork NUM threads  </span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">working</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">t</span><span class="o">.</span><span class="n">setDaemon</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p><img src="images/custom/20141207.jpg" alt="Alt text" /></p>
