@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Pierce's Demesne]]></title>
   <link href="http://caoyx.me/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://caoyx.me/"/>
-  <updated>2014-12-07T20:29:17+08:00</updated>
+  <updated>2014-12-07T20:31:54+08:00</updated>
   <id>http://caoyx.me/</id>
   <author>
     <name><![CDATA[Pierce]]></name>
@@ -103,8 +103,9 @@ for line in lines:
 <p>def grab(arguments):</p>
 
 <pre><code>student_no = arguments[0]
-name = arguments[1].decode("gbk").encode("utf-8")
+name = arguments[1]
 items = get_image(name,student_no,pic_pattern)
+name = name.decode("gbk").encode("utf-8")
 if items is not None:
     (school_name, department, major, class_no, image) = items
     school_name = school_name.decode("gbk").encode("utf-8")
